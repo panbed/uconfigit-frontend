@@ -23,12 +23,12 @@ function InstitutionForm() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSuzbmit = async (e) => {
     e.preventDefault()
     console.log('Submitting:', form)
 
     try {
-      const response = await fetch('/api/mysql/add-institution', {
+      const addInstitutionResponse = await fetch('/api/mysql/add-institution', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,13 +36,25 @@ function InstitutionForm() {
         body: JSON.stringify(form),
       })
 
-      if (!response.ok) {
+      if (!addInstitutionResponse.ok) {
         throw new Error('uh oh')
       }
 
-      const data = await response.json()
-      console.log('yep:', data)
+      const completeSetupResponse = await fetch('/api/env', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          key: 'SETUP_COMPLETE',
+          value: 'true'
+        }),
+      })
 
+      const addInstitutionData = await addInstitutionResponse.json()
+      console.log(addInstitutionData)
+
+      const completeSetupData = await completeSetupResponse.json()
+      console.log(completeSetupData)
+      
     }
     catch (error) {
       console.error('err:', error)
