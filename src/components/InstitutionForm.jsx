@@ -23,7 +23,7 @@ function InstitutionForm() {
     }))
   }
 
-  const handleSuzbmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     console.log('Submitting:', form)
 
